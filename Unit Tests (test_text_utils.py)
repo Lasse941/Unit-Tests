@@ -1,0 +1,49 @@
+import unittest
+import math
+from text_utils import reverse_string, is_palindrome, count_words, normalize_text
+
+class TestTextUtils(unittest.TestCase):
+
+    def test_reverse_string(self):
+        self.assertEqual(reverse_string("hello"), "olleh")
+        self.assertEqual(reverse_string("12345"), "54321")
+        self.assertEqual(reverse_string("!@#$%"), "%$#@!")
+        self.assertEqual(reverse_string(""), "")
+        self.assertEqual(reverse_string("你好"), "好你")  # Chinese characters
+        self.assertEqual(reverse_string("مرحبا"), "ابحرم")  # Arabic
+
+    def test_is_palindrome(self):
+        self.assertTrue(is_palindrome("madam"))
+        self.assertTrue(is_palindrome("A man, a plan, a canal, Panama"))
+        self.assertTrue(is_palindrome("No 'x' in Nixon"))
+        self.assertFalse(is_palindrome("hello"))
+        self.assertTrue(is_palindrome("上海自来水来自海上"))  # Chinese palindrome
+        self.assertTrue(is_palindrome("مصرحرمحرمصر"))  # Arabic palindrome
+        self.assertFalse(is_palindrome("Python is great"))
+        self.assertTrue(is_palindrome("12321"))
+        self.assertFalse(is_palindrome("12345"))
+
+    def test_count_words(self):
+        self.assertEqual(count_words("Hello world!"), 2)
+        self.assertEqual(count_words("This is a test sentence."), 5)
+        self.assertEqual(count_words("  Leading and trailing spaces   "), 3)
+        self.assertEqual(count_words(""), 0)
+        self.assertEqual(count_words("你好，世界"), 2)  # Chinese (Hello, World)
+        self.assertEqual(count_words("مرحبا بالعالم"), 2)  # Arabic
+        self.assertEqual(count_words("Supercalifragilisticexpialidocious"), 1)
+        self.assertEqual(count_words("123 456 789"), 3)
+        self.assertEqual(count_words("\n\n\n"), 0)  # Only newlines
+
+    def test_normalize_text(self):
+        self.assertEqual(normalize_text("Café"), "cafe")  # Removes diacritics
+        self.assertEqual(normalize_text("HELLO"), "hello")  # Converts to lowercase
+        self.assertEqual(normalize_text("ÄÖÜäöü"), "aouaou")  # Handles German umlauts
+        self.assertEqual(normalize_text("你好"), "你好")  # Chinese characters should remain unchanged
+        self.assertEqual(normalize_text("مرحبا"), "مرحبا")  # Arabic remains unchanged
+        self.assertEqual(normalize_text("Éxámplé"), "example")  # Strips accents
+        self.assertEqual(normalize_text(""), "")  # Empty string case
+        self.assertEqual(normalize_text("  "), "  ")  # Whitespace remains unchanged
+        self.assertEqual(normalize_text("1234"), "1234")  # Numbers remain unchanged
+
+if __name__ == "__main__":
+    unittest.main()
