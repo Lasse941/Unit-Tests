@@ -1,0 +1,42 @@
+import unicodedata
+import re
+
+def reverse_string(s: str) -> str:
+    """
+    Reverse the given string.
+
+    :param s: Input string
+    :return: Reversed string
+    """
+    return s[::-1]
+
+def is_palindrome(s: str) -> bool:
+    """
+    Check if the given string is a palindrome.
+
+    :param s: Input string
+    :return: True if the string is a palindrome, False otherwise
+    """
+    normalized_s = re.sub(r'\W+', '', s).lower()
+    return normalized_s == normalized_s[::-1]
+
+def count_words(s: str) -> int:
+    """
+    Count the number of words in the given string.
+
+    :param s: Input string
+    :return: Number of words
+    """
+    words = re.findall(r'\b\w+\b', s)
+    return len(words)
+
+def normalize_text(s: str) -> str:
+    """
+    Normalize text by converting it to lowercase and removing diacritics.
+
+    :param s: Input string
+    :return: Normalized string
+    """
+    s = s.lower()
+    s = ''.join(c for c in unicodedata.normalize('NFKD', s) if not unicodedata.combining(c))
+    return s
